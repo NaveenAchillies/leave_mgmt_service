@@ -1,0 +1,13 @@
+development:
+  adapter: mysql2
+  host: "localhost"
+  port: 3306
+  username: "root"
+  password: ""
+  database: lms_service
+
+test:
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+  database: db/test.sqlite3

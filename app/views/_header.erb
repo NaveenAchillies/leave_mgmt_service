@@ -1,0 +1,12 @@
+<div class='pull-left header'>
+	<div class='navlogo'>LMS</div>
+
+	<% if current_user.present? %>
+		<div class='header_link normal logout pull-right' >
+			<%= link_to('Logout', destroy_user_session_path, :method => :post) %>
+		</div>
+		<div class='header_link normal pull-right'><%=link_to("Leave Peroids", leave_peroids_path) %></div>
+		<div class='header_link normal pull-right'><%=link_to("Leave Events", leave_events_path) %></div>
+		<div class='header_link normal pull-right'><%=link_to("Hi #{current_user.name}", edit_user_registration_path) %></div>
+	<% end %>
+</div>

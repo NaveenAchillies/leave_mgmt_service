@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Leave Events</h1>
+
+<table style = 'width:100%'>
+  <thead style="background-color: blanchedalmond;">
+    <tr>
+      <th colspan="3">start</th>
+      <th colspan="3">end</th>
+      <th colspan="3">hours</th>
+      <th colspan="3">reason</th>
+      <th colspan="3">status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @leave_events.each do |leave_event| %>
+      <tr>
+        <td colspan="3"><%=leave_event["start_time"]%></td>
+        <td colspan="3"><%=leave_event["end_time"]%></td>
+        <td colspan="3"><%=leave_event["hours"]%></td>
+        <td colspan="3"><%=leave_event["reason"]%></td>
+        <td colspan="3"><%=leave_event["status"]%></td>
+        <% if current_user.admin? %>
+          <td><%= link_to 'Edit', edit_leave_event_path(leave_event["id"]) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Apply New Leave', new_leave_event_path %>

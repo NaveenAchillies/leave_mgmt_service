@@ -1,0 +1,23 @@
+<%= form_for(leave_peroid) do |f| %>
+  <% if leave_peroid.errors.any? %>
+    <div id="error_explanation">
+      <% leave_peroid.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= label_tag :start_time, "start time"%>
+  <%= text_field_tag "leave_peroid[start_time]",LeavePeroid.start_of_fy, :placeholder=>'Start Date(YYY-MM-DD)', :style=>'width:170px;',:class=>'required', :disabled=>true %>
+  <%= label_tag :end_time, "end time"%>
+  <%= text_field_tag "leave_peroid[end_time]",LeavePeroid.end_of_fy, :placeholder=>'Start Date(YYY-MM-DD)', :style=>'width:170px;',:class=>'required', :disabled=>true %>
+  <%= label_tag :user_id, "user_id"%>
+  <%= text_area_tag 'leave_peroid[user_id]','', :style=>'width: 170px;',:class=>'required' %><br/>
+
+  <%= label_tag :assigned, "assigned"%>
+  <%= text_area_tag 'leave_peroid[assigned]','', :style=>'width: 170px;',:class=>'required' %><br/>  
+
+  <div class="actions" onclick = "$('#new_leave_peroid').validate()">
+    <%= f.submit%>
+  </div>
+<% end %>

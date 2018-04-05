@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lms</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  	<%= render :partial => "/header" %>
+  	<div id="flash">
+		<% flash.each do |name, msg| %>
+			<% unless msg.blank? %>
+				<div class="alert alert-<%= name %> animated col-md-12 flash_new"><button type="button" class="close" data-dismiss="alert">×</button>
+					<% msg = (msg.instance_of?(String)) ? [msg] : msg %>
+					<p><%= (msg.collect{|m| m+"<br/>"}.join).html_safe %></p>
+				</div>
+			<% end %>
+		<% end %>
+	</div>
+	<div class="container">	
+    <%= yield %>
+  </body>
+
+</html>

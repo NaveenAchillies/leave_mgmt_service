@@ -1,0 +1,21 @@
+<%= form_for(leave_event) do |f| %>
+  <% if leave_event.errors.any? %>
+    <div id="error_explanation">
+      <% leave_event.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= label_tag :start_time, "start time"%>
+  <%= text_field_tag "leave_event[start_time]",'', :placeholder=>'Start Date(YYY-MM-DD)', :style=>'width:170px;',:class=>'required' %>
+  <%= label_tag :end_time, "end time"%>
+  <%= text_field_tag "leave_event[end_time]",'', :placeholder=>'Start Date(YYY-MM-DD)', :style=>'width:170px;',:class=>'required' %>
+  <%= label_tag :reason, "reason"%>
+  <%= text_area_tag 'leave_event[reason]','', :style=>'height: 50px;width: 25%;',:class=>'required' %><br/>
+  <%= hidden_field_tag 'leave_event[user_id]', current_user.id %>
+
+  <div class="actions" onclick = "$('#new_leave_event').validate()">
+    <%= f.submit%>
+  </div>
+<% end %>
