@@ -1,8 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Leave Events</h1>
+<% leaves_left = current_user.leaves_left %>
 
-<p> leaves left for <b> <%= current_user.email %> : <%= current_user.leaves_left %></b></p>
+<p> leaves left for <b> <%= current_user.email %> : <%= leaves_left %></b></p>
 
 <table style = 'width:100%'>
   <thead style="background-color: blanchedalmond;">
@@ -36,6 +37,7 @@
 </table>
 
 <br>
-<%if current_user.leaves_left > 0 %>
+
+<%if leaves_left > 0 %>
 <%= link_to 'Apply New Leave', new_leave_event_path %>
 <% end %>

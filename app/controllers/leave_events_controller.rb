@@ -4,11 +4,11 @@ class LeaveEventsController < ApplicationController
   # GET /leave_events
   # GET /leave_events.json
   def index
-    if $redis.get("leave_events").present?
-      @leave_events = JSON.parse($redis.get("leave_events"))
+    if Rails.cache.read('leave_events').present?
+      @leave_events = Rails.cache.read('leave_events')
     else
       @leave_events = LeaveEvent.all.as_json(:methods=>[:email])
-      $redis.set("leave_events",@leave_events.to_json)
+      Rails.cache.write("leave_events",@leave_events)
     end
   end
 

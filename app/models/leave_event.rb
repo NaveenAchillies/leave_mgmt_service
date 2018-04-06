@@ -27,11 +27,12 @@ class LeaveEvent < ApplicationRecord
 
 	def validate_leaves
 		self.hours = ((end_time - start_time) / 1.hour).round
+		errors.add(:base, "leave cannot be applied in this date range") if self.start_time < Time.zone.now
 		errors.add(:base, "leave cannot be applied in this date range") if hours < 0
 		errors.add(:base, "leaves not yet assigned") unless leave_peroids.present?
 		errors.add(:base, "leave cannot be #{self.status}") if status_change && self.status_was != "applied"
 		# leaves_left = leave_peroids.sum(:assigned) - leave_peroids.sum(:used).to_f
-		errors.add(:base, "no more leaves") if leaves_left >= 0
+		errors.add(:base, "no more leaves") if leaves_left <= 0
 		errors.add(:base, "leaves left #{leaves_left}") if (leaves_left - self.hours/24.to_f) <= 0
 	end
 
@@ -48,7 +49,8 @@ class LeaveEvent < ApplicationRecord
 	end
 
 	def clear_event_cache
-		$redis.del("leave_events")
+		Rails.cache.delete('leave_events')
+		# $redis.del("leave_events")
 	end
 
 end

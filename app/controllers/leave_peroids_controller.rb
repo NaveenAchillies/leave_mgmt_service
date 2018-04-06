@@ -2,11 +2,11 @@ class LeavePeroidsController < ApplicationController
   before_action :authenticate_admin
 
   def index
-    if $redis.get("leave_peroids").present?
-      @leave_peroids = JSON.parse($redis.get("leave_peroids"))
+    if Rails.cache.read('leave_peroids')
+      @leave_peroids = Rails.cache.read('leave_peroids')
     else
       @leave_peroids = LeavePeroid.all.as_json(:methods=>[:email])
-      $redis.set("leave_peroids",@leave_peroids.to_json)
+      Rails.cache.write('leave_peroids',@leave_peroids)
     end
   end
 
