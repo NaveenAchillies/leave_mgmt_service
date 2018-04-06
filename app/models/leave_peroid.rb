@@ -2,7 +2,7 @@ class LeavePeroid < ApplicationRecord
 	extend LeaveEventsHelper
 	# validate :validate_peroid
 	before_create :set_peroid
-	after_commit :clear_cache, on: :update
+	after_commit :clear_cache
 	belongs_to :user
 	delegate :email, to: :user
 

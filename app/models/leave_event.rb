@@ -4,7 +4,8 @@ class LeaveEvent < ApplicationRecord
 	enum status: %i[applied approved rejected]
 	validate :validate_leaves
   	validates_presence_of :start_time, :end_time
-  	after_commit :apply_leave, :clear_event_cache, on: :update
+  	after_commit :apply_leave, on: :update
+  	after_commit :clear_event_cache
   	before_save :set_status_change
   	attr_accessor :status_change
   	delegate :leaves_left, :email, to: :user
