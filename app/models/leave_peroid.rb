@@ -3,6 +3,8 @@ class LeavePeroid < ApplicationRecord
 	# validate :validate_peroid
 	before_create :set_peroid
 	after_commit :clear_cache, on: :update
+	belongs_to :user
+	delegate :email, to: :user
 
 	default_scope do
 		current_user = Thread.current[:current_user]

@@ -5,7 +5,7 @@ class LeavePeroidsController < ApplicationController
     if $redis.get("leave_peroids").present?
       @leave_peroids = JSON.parse($redis.get("leave_peroids"))
     else
-      @leave_peroids = LeavePeroid.all
+      @leave_peroids = LeavePeroid.all.as_json(:methods=>[:email])
       $redis.set("leave_peroids",@leave_peroids.to_json)
     end
   end

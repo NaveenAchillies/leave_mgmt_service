@@ -7,6 +7,7 @@ class LeaveEvent < ApplicationRecord
   	after_commit :apply_leave, :clear_event_cache, on: :update
   	before_save :set_status_change
   	attr_accessor :status_change
+  	delegate :leaves_left, :email, to: :user
 
   	default_scope do
 		current_user = Thread.current[:current_user]
@@ -25,19 +26,18 @@ class LeaveEvent < ApplicationRecord
 	end
 
 	def validate_leaves
-		current_user = Thread.current[:current_user]
 		self.hours = ((end_time - start_time) / 1.hour).round
 		errors.add(:base, "leave cannot be applied in this date range") if hours < 0
-		errors.add(:base, "leave not yet assigned") unless leave_peroids.present?
+		errors.add(:base, "leaves not yet assigned") unless leave_peroids.present?
 		errors.add(:base, "leave cannot be #{self.status}") if status_change && self.status_was != "applied"
-		if current_user.present? && current_user.leave_peroids.present?
-			used = current_user.leave_peroids.sum(:used)
-			assigned = current_user.leave_peroids.sum(:assigned)
-			errors.add(:base, "no more leaves") if used >= assigned
-			leaves_left = assigned - used
-			errors.add(:base, "leaves left #{leaves_left}") if (leaves_left - self.hours/24.to_f) <= 0
-		end
+		# leaves_left = leave_peroids.sum(:assigned) - leave_peroids.sum(:used).to_f
+		errors.add(:base, "no more leaves") if leaves_left >= 0
+		errors.add(:base, "leaves left #{leaves_left}") if (leaves_left - self.hours/24.to_f) <= 0
 	end
+
+	# def leaves_left
+	# 	self.user.leaves_left
+	# end
 
 	def apply_leave
 		leave = self.leave_peroids.last

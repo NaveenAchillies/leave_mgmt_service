@@ -9,4 +9,10 @@ class User < ApplicationRecord
 	def admin?
 		self.role == "admin"
 	end
+
+
+	def leaves_left
+		leave_peroids.sum(:assigned) - leave_peroids.sum(:used).to_f
+	end
+	
 end

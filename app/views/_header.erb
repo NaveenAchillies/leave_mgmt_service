@@ -7,6 +7,6 @@
 		</div>
 		<div class='header_link normal pull-right'><%=link_to("Leave Peroids", leave_peroids_path) %></div>
 		<div class='header_link normal pull-right'><%=link_to("Leave Events", leave_events_path) %></div>
-		<div class='header_link normal pull-right'><%=link_to("Hi #{current_user.name}", edit_user_registration_path) %></div>
+		<div class='header_link normal pull-right'><%=link_to("Hi #{current_user.email}", edit_user_registration_path) %></div>
 	<% end %>
 </div>
