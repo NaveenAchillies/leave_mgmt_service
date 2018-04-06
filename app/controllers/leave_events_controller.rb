@@ -47,7 +47,7 @@ class LeaveEventsController < ApplicationController
     respond_to do |format|
       if @leave_event.update(:status=>leave_event_params[:status].to_i)
         format.html { redirect_to @leave_event, notice: 'Leave event was successfully updated.' }
-        format.json { render :show, status: :ok, location: @leave_event }
+        format.json { render :show, status: :ok, location: leave_events_path }
       else
         format.html { render :edit }
         format.json { render json: @leave_event.errors, status: :unprocessable_entity }
