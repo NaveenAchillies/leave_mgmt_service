@@ -18,7 +18,7 @@ class LeaveEvent < ApplicationRecord
 		when 'admin'
 			order(:status, :end_time, :start_time)
 		end if current_user.present?
-		where(false)
+		where(false) unless current_user.present?
 	end
 
 	def set_status_change

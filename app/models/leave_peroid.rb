@@ -14,7 +14,7 @@ class LeavePeroid < ApplicationRecord
 		when 'admin'
 			order(:end_time,:start_time)
 		end if current_user.present?
-		where(false)
+		where(false) unless current_user.present?
 	end
 
 	def set_peroid
