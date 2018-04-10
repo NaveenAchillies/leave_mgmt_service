@@ -4,11 +4,12 @@ class LeaveEventsController < ApplicationController
   # GET /leave_events
   # GET /leave_events.json
   def index
-    if Rails.cache.read('leave_events').present?
-      @leave_events = Rails.cache.read('leave_events')
+    key = "leave_events_" + Thread.current[:current_act_id].to_s
+    if Rails.cache.read(key).present?
+      @leave_events = Rails.cache.read(key)
     else
       @leave_events = LeaveEvent.all.as_json(:methods=>[:email])
-      Rails.cache.write("leave_events",@leave_events)
+      Rails.cache.write(key,@leave_events)
     end
   end
 

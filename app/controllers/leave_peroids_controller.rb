@@ -2,11 +2,12 @@ class LeavePeroidsController < ApplicationController
   before_action :authenticate_admin
 
   def index
-    if Rails.cache.read('leave_peroids')
-      @leave_peroids = Rails.cache.read('leave_peroids')
+    key = "leave_peroids_" + Thread.current[:current_act_id].to_s
+    if Rails.cache.read(key)
+      @leave_peroids = Rails.cache.read(key)
     else
       @leave_peroids = LeavePeroid.all.as_json(:methods=>[:email])
-      Rails.cache.write('leave_peroids',@leave_peroids)
+      Rails.cache.write(key,@leave_peroids)
     end
   end
 

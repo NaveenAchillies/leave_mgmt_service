@@ -23,7 +23,7 @@ class LeavePeroid < ApplicationRecord
 	end
 
 	def clear_cache
-		Rails.cache.delete('leave_peroids')
+		Rails.cache.delete("leave_peroids_" + Thread.current[:current_act_id].to_s)
 		# $redis.del("leave_peroids")
 	end
 
