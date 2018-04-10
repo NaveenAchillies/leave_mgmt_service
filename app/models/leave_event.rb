@@ -11,14 +11,17 @@ class LeaveEvent < ApplicationRecord
   	delegate :leaves_left, :email, to: :user
 
   	default_scope do
-		current_user = Thread.current[:current_user]
-		case current_user.role
-		when 'user'
-			where(:user_id=>current_user.id)
-		when 'admin'
-			order(:status, :end_time, :start_time)
-		end if current_user.present?
-		where(false) unless current_user.present?
+  		current_user = Thread.current[:current_user]
+		if current_user.present?
+			case current_user.role
+			when 'user'
+				where(:user_id=>current_user.id)
+			when 'admin'
+				order(:status, :end_time, :start_time)
+			end
+		else
+			where(false)
+		end
 	end
 
 	def set_status_change

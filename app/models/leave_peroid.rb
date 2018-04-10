@@ -8,13 +8,16 @@ class LeavePeroid < ApplicationRecord
 
 	default_scope do
 		current_user = Thread.current[:current_user]
-		case current_user.role
-		when 'user'
-			where("start_time >= ? and end_time <= ?", start_of_fy, end_of_fy)
-		when 'admin'
-			order(:end_time,:start_time)
-		end if current_user.present?
-		where(false) unless current_user.present?
+		if current_user.present?
+			case current_user.role
+			when 'user'
+				where("start_time >= ? and end_time <= ?", start_of_fy, end_of_fy)
+			when 'admin'
+				order(:end_time,:start_time)
+			end
+		else
+			where(false)
+		end
 	end
 
 	def set_peroid
